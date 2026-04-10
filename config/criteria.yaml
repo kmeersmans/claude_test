@@ -1,0 +1,87 @@
+# =============================================================================
+# Evaluation Criteria Configuration
+# =============================================================================
+# Edit this file to change what the LLM (and human judges) evaluate.
+# Each criterion appears in both the LLM prompt and the Streamlit UI.
+#
+# Structure:
+#   id:          Unique identifier (used in score storage and JSON output)
+#   name:        Display name shown to human judges and used in LLM prompt
+#   description: Detailed description of what to evaluate
+#   scale_min:   Minimum score (inclusive)
+#   scale_max:   Maximum score (inclusive)
+#   guidelines:  Per-score guidance so judges (LLM or human) apply consistent standards
+#
+# To add a new criterion: copy any block below and adjust the fields.
+# To remove one: delete or comment out the entire block.
+# =============================================================================
+
+criteria:
+  - id: scientific_accuracy
+    name: "Scientific Accuracy"
+    description: >
+      Are inaccuracies or fabrications detected in the text?
+      Evaluate whether claims are factually correct, properly supported,
+      and free from hallucinated or misleading information.
+    scale_min: 1
+    scale_max: 5
+    guidelines:
+      1: "Major inaccuracies or fabrications throughout the text"
+      2: "Several notable inaccuracies that undermine credibility"
+      3: "Generally accurate with some minor errors or unsupported claims"
+      4: "Accurate with only negligible issues"
+      5: "Fully accurate — no detectable errors or fabrications"
+
+  - id: coherent_drafting
+    name: "Coherent Drafting"
+    description: >
+      Is the text coherent? Does it flow naturally and logically?
+      Are arguments consistent and not contradicting each other?
+      Evaluate overall structure, paragraph transitions, and internal consistency.
+    scale_min: 1
+    scale_max: 5
+    guidelines:
+      1: "Incoherent — disorganised, contradictory, or impossible to follow"
+      2: "Poorly structured with notable logical gaps or contradictions"
+      3: "Reasonably coherent but with some awkward transitions or minor inconsistencies"
+      4: "Well-structured and logical with only minor flow issues"
+      5: "Excellent coherence — flows naturally, logically airtight, fully consistent"
+
+  - id: innovation_insightfulness
+    name: "Innovation / Insightfulness"
+    description: >
+      Does the text merely restate its sources, or does it integrate and
+      synthesise them? Are new insights derived from the cited material?
+      Evaluate originality of analysis and depth of intellectual contribution.
+    scale_min: 1
+    scale_max: 5
+    guidelines:
+      1: "Purely restates sources with no original thought"
+      2: "Mostly derivative with only superficial integration"
+      3: "Some integration of sources with occasional original observations"
+      4: "Good synthesis — draws meaningful connections and offers fresh perspectives"
+      5: "Highly insightful — original analysis that advances understanding beyond the sources"
+
+# =============================================================================
+# Future sections (uncomment and populate when ready)
+# =============================================================================
+
+# hard_rules:
+#   - id: min_word_count
+#     description: "Text must contain at least 500 words"
+#     check: "word_count >= 500"
+#     fail_action: "flag"   # flag | reject | deduct_points
+#
+#   - id: no_plagiarism
+#     description: "Text must not contain verbatim passages longer than 40 words from a single source"
+#     check: "max_verbatim_run <= 40"
+#     fail_action: "reject"
+
+# additional_context:
+#   - id: source_material
+#     description: "Original source texts that the document should be compared against"
+#     path: "context/sources/"
+#
+#   - id: rubric_notes
+#     description: "Additional rubric notes or domain-specific guidance"
+#     path: "context/rubric_notes.md"

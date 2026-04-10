@@ -1,0 +1,47 @@
+# =============================================================================
+# LLM Provider Configuration
+# =============================================================================
+# Switch between providers by changing `active_provider`.
+# Each provider section contains its own connection and model settings.
+# =============================================================================
+
+active_provider: "ollama"   # "ollama" or "bedrock"
+
+ollama:
+  base_url: "http://localhost:11434"
+  model: "llama3.1:8b"
+  temperature: 0.1          # Low temperature for consistent evaluations
+  num_ctx: 8192             # Context window size
+
+bedrock:
+  region: "us-east-1"
+  model_id: "anthropic.claude-sonnet-4-20250514"
+  temperature: 0.1
+  max_tokens: 4096
+  # AWS credentials are read from environment / IAM role / ~/.aws/credentials
+  # profile: "default"      # Uncomment to use a specific AWS profile
+
+# =============================================================================
+# System prompt preamble — injected before the criteria-specific instructions.
+# Edit this to change the overall persona / behaviour of the LLM judge.
+# =============================================================================
+system_preamble: |
+  You are an expert academic reviewer. Your task is to evaluate a text
+  according to the criteria provided. For each criterion you MUST return:
+    - A score (integer) within the specified scale
+    - A short justification (2-3 sentences) explaining the score
+
+  Be rigorous, fair, and consistent. Base your evaluation solely on the
+  text provided. If the text is too short or unintelligible to evaluate,
+  assign the lowest score and explain why.
+
+  Return your evaluation as valid JSON with the following structure:
+  {
+    "evaluations": [
+      {
+        "criterion_id": "<id>",
+        "score": <int>,
+        "justification": "<string>"
+      }
+    ]
+  }

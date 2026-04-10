@@ -1,0 +1,20 @@
+__pycache__/
+*.pyc
+*.pyo
+.env
+*.egg-info/
+dist/
+build/
+
+# Scores database (regenerated at runtime)
+scores/*.db
+scores/*.db-wal
+scores/*.db-shm
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
